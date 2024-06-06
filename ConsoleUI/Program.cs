@@ -4,81 +4,93 @@ using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 
-ProductManager productManager = new ProductManager(new EfProductDal());
-CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
+IProductService productService = new ProductManager(new EfProductDal());
+ICategoryService categoryService = new CategoryManager(new EfCategoryDal());
 
-OrderManager orderManager = new OrderManager(new EfOrderDal());
+IOrderService orderService = new OrderManager(new EfOrderDal());
 
-//ProductTests(productManager);
+ProductTests1(productService);
+//ProductTests2(productService);
+//ProductTests3(productService);
 
-//CategoryTests1(categoryManager);
+//ProductTestsPrivate(productService);
 
-//CategoryTests2(categoryManager);
+CategoryTests1(categoryService);
 
-//OrderTests1(orderManager);
-//OrderTests2(orderManager);
-foreach (var product in productManager.GetProductDetails())
-{
-    Console.WriteLine(product.ProductName + " - " + product.CategoryName);
-}
+//CategoryTests2(categoryService);
+
+//OrderTests1(orderService);
+//OrderTests2(orderService);
+//OrderTests3(orderService);
 
 #region Methods
-static void CategoryTests1(CategoryManager categoryManager)
+static void CategoryTests1(ICategoryService categoryService)
 {
-    foreach (var category in categoryManager.GetAll())
+    foreach (var category in categoryService.GetAll().Data)
     {
         Console.WriteLine(category.CategoryName);
     }
+    Console.WriteLine("--------------------------------");
+    Console.WriteLine(categoryService.GetAll().Message);
 }
-static void CategoryTests2(CategoryManager categoryManager)
+static void CategoryTests2(ICategoryService categoryService)
 {
-    Console.WriteLine(categoryManager.GetById(1).CategoryName);
+    Console.WriteLine(categoryService.GetById(1).Data.CategoryName);
 }
 
-static void OrderTests1(OrderManager orderManager)
+static void OrderTests1(IOrderService orderService)
 {
-    foreach (var order in orderManager.GetByEmployeeId(4))
+    foreach (var order in orderService.GetByEmployeeId(4))
     {
         Console.WriteLine(order.OrderID + "-" + order.CustomerID + "-" + order.EmployeeID + "-" + order.ShipCity + "-" + order.OrderDate);
     }
 }
 
-static void OrderTests2(OrderManager orderManager)
+static void OrderTests2(IOrderService orderService)
 {
-    foreach (var order in orderManager.GetByCustomerId("VINET"))
+    foreach (var order in orderService.GetByCustomerId("VINET"))
     {
         Console.WriteLine(order.OrderID + "-" + order.CustomerID + "-" + order.EmployeeID + "-" + order.ShipCity + "-" + order.OrderDate);
     }
 }
 
-static void OrderTests3(OrderManager orderManager)
+static void OrderTests3(IOrderService orderService)
 {
 
-    Console.WriteLine(orderManager.GetById(4).ShipCity + "/" + orderManager.GetById(4).CustomerID);
+    Console.WriteLine(orderService.GetById(4).ShipCity + "/" + orderService.GetById(4).CustomerID);
 
 }
-static void ProductTests(ProductManager productManager)
+static void ProductTests1(IProductService productService)
 {
-    foreach (var product in productManager.GetByUnitPrice(90, 7500))
+    foreach (var product in productService.GetByUnitPrice(90, 7500).Data)
     {
         Console.WriteLine(product.ProductName + "/" + product.UnitPrice);
     }
-    Console.WriteLine("");
+    Console.WriteLine("--------------------------------");
+    Console.WriteLine(productService.GetByUnitPrice(90,7500).Message);
 }
-static void ProductTests2(ProductManager productManager)
+static void ProductTests2(IProductService productService)
 {
-    foreach (var product in productManager.GetAll())
+    foreach (var product in productService.GetAll().Data)
     {
         Console.WriteLine(product.ProductName);
     }
     Console.WriteLine("");
 }
-static void ProductTests3(ProductManager productManager)
+static void ProductTests3(IProductService productService)
 {
-    foreach (var product in productManager.GetAllByCategoryId(2))
+    foreach (var product in productService.GetAllByCategoryId(2).Data)
     {
         Console.WriteLine(product.ProductName);
     }
     Console.WriteLine("");
+}
+
+static void ProductTestsPrivate(IProductService productService)
+{
+    foreach (var product in productService.GetProductDetails().Data)
+    {
+        Console.WriteLine(product.ProductName + " - " + product.CategoryName);
+    }
 }
 #endregion
