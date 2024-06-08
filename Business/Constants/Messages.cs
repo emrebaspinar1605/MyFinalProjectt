@@ -27,6 +27,7 @@ namespace Business.Constants
         public static string ProductGetById = "Ürün Id'sine Göre Ürün Getirilmiştir.";
         public static string ProductListedByUnitPrice = "Birim Fiyatına Göre Listelenmiştir.";
         public static string ProductDetailListed = "Ürünler Detaylarıyla Listelenmiştir.";
+        public static string ProductNotListed= "Ürünler Listelenememiştir.";
 
 
         internal static string CategoryGetById = "Kategori Id'sine Göre Getirilmiştir.";

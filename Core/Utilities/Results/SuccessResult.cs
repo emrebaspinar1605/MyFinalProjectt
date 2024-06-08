@@ -6,7 +6,7 @@
         {
 
         }
-        public SuccessResult(string message) : base(true)
+        public SuccessResult(string message) : base(true,message)
         {
 
         }

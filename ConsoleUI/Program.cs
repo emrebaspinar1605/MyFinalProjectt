@@ -3,12 +3,14 @@ using Business.Concrete;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
+using Entities.Concrete;
 
 IProductService productService = new ProductManager(new EfProductDal());
 ICategoryService categoryService = new CategoryManager(new EfCategoryDal());
 
 IOrderService orderService = new OrderManager(new EfOrderDal());
-
+Console.WriteLine(productService.Add(new Product { CategoryID = 1, ProductName = "Deneme", UnitPrice = 150, UnitsInStock = 15 }).Message);
+Console.WriteLine(categoryService.Add(new Category { CategoryName = "Lastik" }).Message);
 ProductTests1(productService);
 //ProductTests2(productService);
 //ProductTests3(productService);
@@ -67,7 +69,7 @@ static void ProductTests1(IProductService productService)
         Console.WriteLine(product.ProductName + "/" + product.UnitPrice);
     }
     Console.WriteLine("--------------------------------");
-    Console.WriteLine(productService.GetByUnitPrice(90,7500).Message);
+    Console.WriteLine(productService.GetByUnitPrice(90, 7500).Message);
 }
 static void ProductTests2(IProductService productService)
 {
