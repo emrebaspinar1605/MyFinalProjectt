@@ -43,4 +43,13 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CategoryUpdated);
         }
     }
+    public class CustomerManager : ICustomerService
+    {
+        ICustomerDal _cDal;
+
+        public CustomerManager(ICustomerDal cDal)
+        {
+            _cDal = cDal;
+        }
+    }
 }
