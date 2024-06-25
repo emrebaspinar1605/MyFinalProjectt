@@ -36,6 +36,9 @@ namespace Business.Constants
 
         #region Hata Mesajları
         public static string ProductNameInvalid = "Ürün Adı Uygun Değil.";
+        public static string ProductNameAlreadyExist= "Ürün Adı Zaten Mevcut.";
+        public static string MaxLimitOfProductInCategory = "Bir Kategoride ki Ürün Limiti Aşıldı.";
+        internal static string MaxCategoryLimit= "Kategori Sayısı Sınırı Geçti.";
 
 
         #endregion

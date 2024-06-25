@@ -5,19 +5,18 @@ using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 
-IProductService productService = new ProductManager(new EfProductDal());
-ICategoryService categoryService = new CategoryManager(new EfCategoryDal());
+//ICategoryService categoryService = new CategoryManager(new EfCategoryDal());
 
-IOrderService orderService = new OrderManager(new EfOrderDal());
-Console.WriteLine(productService.Add(new Product { CategoryID = 1, ProductName = "Deneme", UnitPrice = 150, UnitsInStock = 15 }).Message);
-Console.WriteLine(categoryService.Add(new Category { CategoryName = "Lastik" }).Message);
-ProductTests1(productService);
+//IOrderService orderService = new OrderManager(new EfOrderDal());
+//Console.WriteLine(productService.Add(new Product { CategoryID = 1, ProductName = "Deneme", UnitPrice = 150, UnitsInStock = 15 }).Message);
+//Console.WriteLine(categoryService.Add(new Category { CategoryName = "Lastik" }).Message);
+//ProductTests1(productService);
 //ProductTests2(productService);
 //ProductTests3(productService);
 
 //ProductTestsPrivate(productService);
 
-CategoryTests1(categoryService);
+//CategoryTests1(categoryService);
 
 //CategoryTests2(categoryService);
 

@@ -19,5 +19,6 @@ public interface IProductService
 
 
     IResult Add(Product product);
+    IResult Update(Product product);
 }
 
