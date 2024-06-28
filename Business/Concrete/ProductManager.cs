@@ -1,23 +1,13 @@
 ﻿using Business.Abstract;
-using Business.CCS;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspect.Autofac.Validation;
-using Core.CrossCuttingConcerns.Validation;
-using Core.CrossCuttingConcerns.Validation.FluentValidation;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
-using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Entities.DTOs;
-using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+using Business.BusinessAspects.Autofac;
 
 namespace Business.Concrete
 {
@@ -31,21 +21,19 @@ namespace Business.Concrete
             _pDal = pDal;
             _cService = cService;
         }
-
+        [SecuredOperation("product.add,admin")]
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
 
-            IResult results = BusinessRules.Run(CheckProductNameIsValid(product),
+            IResult result = BusinessRules.Run(CheckProductNameIsValid(product),
                   CheckMaxLimitOfProductInCategory(product.CategoryID), CheckCategoryCount());
-            if (results != null)
-            {
-                return results;
-            }
-
+            if (result != null)
+                return new ErrorResult();
 
             _pDal.Add(product);
             return new SuccessResult(Messages.ProductAdded);
+
 
         }
 

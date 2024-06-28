@@ -1,4 +1,5 @@
-﻿using Microsoft.Identity.Client;
+﻿using Core.Entities.Concrete;
+using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,14 @@ namespace Business.Constants
         public static string ProductNameInvalid = "Ürün Adı Uygun Değil.";
         public static string ProductNameAlreadyExist= "Ürün Adı Zaten Mevcut.";
         public static string MaxLimitOfProductInCategory = "Bir Kategoride ki Ürün Limiti Aşıldı.";
-        internal static string MaxCategoryLimit= "Kategori Sayısı Sınırı Geçti.";
+        public static string MaxCategoryLimit= "Kategori Sayısı Sınırı Geçti.";
+        public static string? AuthorizationDenied = "Yetkisiz Giriş.";
+        public static string UserRegistered = "Kullanıcı Kayıt Edildi.";
+        public static string UserNotFound = "Kullanıcı Bulunamadı.";
+        public static string PasswordError = "Şifre Hatalı.";
+        public static string SuccessfulLogin = "Giriş Başarılı";
+        public static string UserAlreadyExists = "Kullanıcı Zaten Mevcut.";
+        public static string AccessTokenCreated = "Erişim Token'ı Oluşturuldu";
 
 
         #endregion
