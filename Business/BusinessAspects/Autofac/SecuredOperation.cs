@@ -11,6 +11,7 @@ namespace Business.BusinessAspects.Autofac
 {
     public class SecuredOperation : MethodInterception
     {
+        public static bool trueRole;
         private string[] _roles;
         private IHttpContextAccessor _httpContextAccessor;
 
@@ -28,10 +29,12 @@ namespace Business.BusinessAspects.Autofac
             {
                 if (roleClaims.Contains(role))
                 {
+                    trueRole = true;
                     return;
                 }
             }
-            throw new Exception(Messages.AuthorizationDenied);
+            trueRole = false;
+            return;
         }
     }
 }

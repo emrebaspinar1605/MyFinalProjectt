@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Concrete;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
@@ -66,6 +67,7 @@ namespace WebAPI.Controllers
         [HttpPost("add")]
         public IActionResult AddProduct(Product product)
         {
+           
             var result = productService.Add(product);
             if (result.Success)
             {

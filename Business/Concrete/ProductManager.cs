@@ -8,6 +8,8 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 using Business.BusinessAspects.Autofac;
+using Core.Aspect.Autofac.Caching;
+using Core.Aspect.Autofac.Transaction;
 
 namespace Business.Concrete
 {
@@ -23,20 +25,22 @@ namespace Business.Concrete
         }
         [SecuredOperation("product.add,admin")]
         [ValidationAspect(typeof(ProductValidator))]
+        [CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Product product)
         {
 
-            IResult result = BusinessRules.Run(CheckProductNameIsValid(product),
+            IResult result = BusinessRules.Run(CheckClaimIsCorrect(),CheckProductNameIsValid(product ),
                   CheckMaxLimitOfProductInCategory(product.CategoryID), CheckCategoryCount());
             if (result != null)
-                return new ErrorResult();
+                return new ErrorResult(result.Message);
 
             _pDal.Add(product);
             return new SuccessResult(Messages.ProductAdded);
 
 
         }
-
+        [CacheAspect]
+        //[TransactionScopeAspect]
         public IDataResult<List<Product>> GetAll()
         {
 
@@ -50,7 +54,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Product>>(_pDal.GetAll(p => p.CategoryID == id), Messages.ProductListedByCategoryId);
 
         }
-
+        [CacheAspect]
         public IDataResult<Product> GetById(int productId)
         {
             return new SuccessDataResult<Product>(_pDal.Get(p => p.ProductID == productId), Messages.ProductGetById);
@@ -67,9 +71,10 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(ProductValidator))]
+        [CacheRemoveAspect("IProductService.Get")]
         public IResult Update(Product product)
         {
-            IResult result = BusinessRules.Run(CheckProductNameIsValid(product),
+            IResult result = BusinessRules.Run(CheckClaimIsCorrect(),CheckProductNameIsValid(product),
                  CheckMaxLimitOfProductInCategory(product.CategoryID), CheckCategoryCount());
             if (result != null)
             {
@@ -107,6 +112,13 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.MaxCategoryLimit);
             }
             return new SuccessResult();
+        }
+        private IResult CheckClaimIsCorrect()
+        {
+            if (SecuredOperation.trueRole) return new SuccessResult();
+
+            return new ErrorResult(Messages.AuthorizationDenied);
+                    
         }
         #endregion
     }
